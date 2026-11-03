@@ -7,6 +7,9 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apachemaven&logoColor=white)
 
+### 📌 Repository Note
+This repository contains the completed stable build of the SubTracker application. The project was initially developed in a separate team environment prior to its publication. As a result, the commit history here reflects the final release and some cleanup stages rather than day-to-day incremental updates.
+
 ---
 
 ## ✨ Features
