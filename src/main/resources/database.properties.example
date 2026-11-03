@@ -1,0 +1,17 @@
+# MS SQL Server Configuration
+# IMPORTANT: Copy this file to 'database.properties' and fill in your actual credentials
+# DO NOT commit database.properties to Git - it's in .gitignore for security
+
+db.url=jdbc:sqlserver://localhost;databaseName=subtracker_db;encrypt=true;trustServerCertificate=true;integratedSecurity=false
+db.username=YOUR_USERNAME
+db.password=YOUR_PASSWORD
+db.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+# HikariCP Settings
+hikari.connectionTimeout=30000
+hikari.idleTimeout=600000
+hikari.maxLifetime=1800000
+hikari.minimumIdle=5
+hikari.maximumPoolSize=10
+hikari.poolName=SubTrackerPool
+hikari.autoCommit=true

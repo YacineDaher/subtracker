@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emsi.subtracker.controllers.DashboardController"
+            styleClass="bg-primary"
+            prefHeight="768" prefWidth="1280">
+
+    <!-- SIDEBAR GAUCHE -->
+    <left>
+        <VBox prefWidth="260" spacing="0" styleClass="sidebar">
+            <padding>
+                <Insets top="30" right="20" bottom="30" left="20"/>
+            </padding>
+            
+            <!-- LOGO + TITLE -->
+            <VBox alignment="CENTER" spacing="15">
+                <padding><Insets bottom="20"/></padding>
+                
+                <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logo.jpg"/>
+                    </image>
+                    <clip>
+                        <Circle centerX="40" centerY="40" radius="40"/>
+                    </clip>
+                </ImageView>
+                
+                <Label text="SubTracker" styleClass="text-header"/>
+                <Separator styleClass="separator-horizontal" prefWidth="220"/>
+            </VBox>
+            
+            <!-- NAVIGATION -->
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <Button text="Dashboard" maxWidth="Infinity" styleClass="nav-button-active"/>
+                <Button text="Analytics" onAction="#goToAnalytics" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Paramètres" onAction="#onSettingsClick" maxWidth="Infinity" styleClass="nav-button"/>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                
+                <!-- VERSION -->
+                <Label text="Version 1.0.2" style="-fx-text-fill: #555; -fx-font-size: 11;"/>
+            </VBox>
+        </VBox>
+    </left>
+    
+    <!-- CONTENU PRINCIPAL -->
+    <center>
+        <VBox spacing="25">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblWelcome" text="Bonjour, Utilisateur" styleClass="text-title-large"/>
+                    <Label text="Voici un aperçu de vos abonnements" styleClass="text-subheader"/>
+                </VBox>
+                
+                <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field" prefWidth="250"/>
+                
+                <ToggleButton fx:id="themeToggleDashboard" text="🌙" styleClass="icon-button-profile" onAction="#onThemeToggle"/>
+
+                <Button onAction="#onProfileClick" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                    <graphic>
+                        <ImageView fx:id="userAvatar" fitHeight="45" fitWidth="45" preserveRatio="true">
+                            <image><Image url="@../images/profilicon.png"/></image>
+                            <clip><Circle centerX="22.5" centerY="22.5" radius="22.5"/></clip>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+            
+            <!-- STATS CARDS -->
+            <HBox spacing="20">
+                <!-- Total Mensuel -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Dépenses Mensuelles" styleClass="card-title"/>
+                    <HBox alignment="BASELINE_LEFT" spacing="8">
+                        <Label fx:id="lblTotalMensuel" text="0.00 DH" styleClass="card-value-green"/>
+                        <Label text="/ mois" styleClass="text-muted"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Nombre d'abonnements -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Abonnements Actifs" styleClass="card-title"/>
+                    <Label fx:id="lblNombreAbonnements" text="0" styleClass="text-title-medium"/>
+                </VBox>
+            </HBox>
+            
+            <!-- TOOLBAR -->
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Vos Abonnements" styleClass="text-section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="categoryFilter" promptText="Catégorie" prefWidth="180" styleClass="combo-box"/>
+                <ComboBox fx:id="sortFilter" promptText="Trier par" prefWidth="180" styleClass="combo-box"/>
+                <Button text="+ Ajouter" onAction="#onBtnAjouterClick" styleClass="button-action"/>
+            </HBox>
+            
+            <!-- GRID D'ABONNEMENTS -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: transparent; -fx-background: transparent;">
+                <FlowPane fx:id="cardsContainer" hgap="15" vgap="20" style="-fx-background-color: transparent;" prefWrapLength="1000">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                </FlowPane>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

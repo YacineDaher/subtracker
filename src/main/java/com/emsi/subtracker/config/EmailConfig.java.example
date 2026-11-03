@@ -1,0 +1,38 @@
+package com.emsi.subtracker.config;
+
+/**
+ * Configuration SMTP pour l'envoi d'emails.
+ * 
+ * IMPORTANT: Copier ce fichier vers 'EmailConfig.java' et remplir avec vos vraies credentials.
+ * NE PAS commiter EmailConfig.java sur Git - il est dans .gitignore pour la sécurité.
+ * 
+ * Pour Gmail:
+ * 1. Activer l'authentification à deux facteurs sur votre compte Google
+ * 2. Générer un "Mot de passe d'application" dans les paramètres de sécurité Google
+ * 3. Utiliser ce mot de passe d'application (pas votre mot de passe principal)
+ */
+public class EmailConfig {
+
+    // Configuration SMTP Gmail
+    public static final String SMTP_HOST = "smtp.gmail.com";
+    public static final String SMTP_PORT = "587";
+    public static final boolean SMTP_AUTH = true;
+    public static final boolean SMTP_TLS_ENABLE = true;
+    public static final boolean SMTP_SSL_ENABLE = false;
+
+    // Credentials - REMPLACER PAR VOS VRAIES CREDENTIALS
+    public static final String EMAIL_USERNAME = "VOTRE_EMAIL@gmail.com";
+    public static final String EMAIL_PASSWORD = "VOTRE_MOT_DE_PASSE_APPLICATION";
+
+    // Adresse d'envoi (doit correspondre à EMAIL_USERNAME pour Gmail)
+    public static final String EMAIL_FROM = "VOTRE_EMAIL@gmail.com";
+    public static final String EMAIL_FROM_NAME = "SubTracker App";
+
+    /**
+     * Vérifie si la configuration est valide.
+     */
+    public static boolean isConfigured() {
+        return !EMAIL_USERNAME.equals("VOTRE_EMAIL@gmail.com") 
+            && !EMAIL_PASSWORD.equals("VOTRE_MOT_DE_PASSE_APPLICATION");
+    }
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.emsi.subtracker.controllers.AddSubscriptionController"
+      spacing="20" alignment="TOP_CENTER" prefHeight="650" prefWidth="550"
+      style="-fx-background-color: #1A1A1A; -fx-background-radius: 16;">
+    <padding>
+        <Insets top="30" right="35" bottom="30" left="35"/>
+    </padding>
+    
+    <!-- TITRE -->
+    <HBox alignment="CENTER_LEFT">
+        <Label text="Nouvel Abonnement" style="-fx-text-fill: white; -fx-font-size: 24; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
+        <Button text="✕" onAction="#onBtnAnnulerClick" style="-fx-background-color: transparent; -fx-text-fill: #A0A0A0; -fx-font-size: 20; -fx-cursor: hand;"/>
+    </HBox>
+    
+    <!-- FORMULAIRE SCROLLABLE -->
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+        <VBox spacing="18">
+            <!-- Nom -->
+            <VBox spacing="8">
+                <Label text="NOM DU SERVICE" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <TextField fx:id="txtNom" promptText="Netflix, Spotify..."
+                          style="-fx-background-color: #252525; -fx-text-fill: white; -fx-prompt-text-fill: #666; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14;"/>
+            </VBox>
+            
+            <!-- Prix -->
+            <VBox spacing="8">
+                <Label text="PRIX (DH)" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <TextField fx:id="txtPrix" promptText="99.99"
+                          style="-fx-background-color: #252525; -fx-text-fill: white; -fx-prompt-text-fill: #666; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14;"/>
+            </VBox>
+            
+            <!-- Date de début -->
+            <VBox spacing="8">
+                <Label text="DATE DE DÉBUT" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <DatePicker fx:id="dateDebut"
+                           style="-fx-background-color: #252525; -fx-control-inner-background: #252525; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8;"/>
+            </VBox>
+            
+            <!-- Fréquence -->
+            <VBox spacing="8">
+                <Label text="FRÉQUENCE" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="cmbFrequence" maxWidth="Infinity"
+                         style="-fx-background-color: #252525; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8;"/>
+            </VBox>
+            
+            <!-- Catégorie -->
+            <VBox spacing="8">
+                <Label text="CATÉGORIE" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="cmbCategorie" maxWidth="Infinity"
+                         style="-fx-background-color: #252525; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8;"/>
+            </VBox>
+            
+            <!-- Assigner à (profils familiaux) -->
+            <VBox fx:id="assignToContainer" spacing="8">
+                <Label fx:id="assignToLabel" text="ASSIGNER À" style="-fx-text-fill: #A0A0A0; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="assignToComboBox" maxWidth="Infinity"
+                         style="-fx-background-color: #252525; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8;"/>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+    
+    <!-- BOUTONS -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Annuler" onAction="#onBtnAnnulerClick" prefWidth="150"
+               style="-fx-background-color: transparent; -fx-border-color: #666; -fx-border-width: 2; -fx-border-radius: 8; -fx-text-fill: #A0A0A0; -fx-padding: 12; -fx-cursor: hand; -fx-font-size: 14;"/>
+        <Button text="Sauvegarder" onAction="#onBtnEnregistrerClick" prefWidth="150"
+               style="-fx-background-color: #6C63FF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand;"/>
+    </HBox>
+</VBox>

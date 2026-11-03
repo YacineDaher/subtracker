@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emsi.subtracker.controllers.AnalyticsController"
+            styleClass="bg-primary"
+            prefHeight="768" prefWidth="1280">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="260" spacing="0" styleClass="sidebar">
+            <padding><Insets top="30" right="20" bottom="30" left="20"/></padding>
+            
+            <VBox alignment="CENTER" spacing="15">
+                <padding><Insets bottom="20"/></padding>
+                
+                <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logo.jpg"/>
+                    </image>
+                    <clip>
+                        <Circle centerX="25" centerY="25" radius="25"/>
+                    </clip>
+                </ImageView>
+                
+                <Label text="SubTracker" styleClass="text-header"/>
+                <Separator styleClass="separator-horizontal" prefWidth="220"/>
+            </VBox>
+            
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <Button text="Dashboard" onAction="#goToDashboard" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Analytics" maxWidth="Infinity" styleClass="nav-button-active"/>
+                <Button text="Paramètres" onAction="#onSettingsClick" maxWidth="Infinity" styleClass="nav-button"/>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                <Label text="Version 1.0.2" style="-fx-text-fill: #555; -fx-font-size: 11;"/>
+            </VBox>
+        </VBox>
+    </left>
+    
+    <!-- CONTENU -->
+    <center>
+        <VBox spacing="25">
+            <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+            
+            <!-- HEADER -->
+            <VBox spacing="5">
+                <Label text="Statistiques" styleClass="text-title-large"/>
+                <Label text="Analysez vos dépenses d'abonnements" styleClass="text-subheader"/>
+            </VBox>
+            
+            <!-- STATS OVERVIEW -->
+            <HBox spacing="20">
+                <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Total Annuel" styleClass="card-title"/>
+                    <Label fx:id="lblTotalAnnuel" text="0.00 DH" styleClass="text-header"/>
+                </VBox>
+                
+                <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Moyenne Mensuelle" styleClass="card-title"/>
+                    <Label fx:id="lblMoyenneMensuelle" text="0.00 DH" styleClass="card-value-green"/>
+                </VBox>
+                
+                <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Plus Cher" styleClass="card-title"/>
+                    <Label fx:id="lblPlusCher" text="-" styleClass="text-header"/>
+                </VBox>
+            </HBox>
+            
+            <!-- CHARTS -->
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Pie Chart -->
+                <VBox spacing="15" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Répartition par Catégorie" styleClass="text-section-title"/>
+                    <PieChart fx:id="pieChartCategories" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;" legendSide="BOTTOM"/>
+                </VBox>
+                
+                <!-- Bar Chart -->
+                <VBox spacing="15" HBox.hgrow="ALWAYS" styleClass="card">
+                    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                    <Label text="Top 5 Abonnements" styleClass="text-section-title"/>
+                    <BarChart fx:id="barChartCosts" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;" legendVisible="false">
+                        <xAxis><CategoryAxis side="BOTTOM" tickLabelFill="#A0A0A0"/></xAxis>
+                        <yAxis><NumberAxis side="LEFT" tickLabelFill="#A0A0A0"/></yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

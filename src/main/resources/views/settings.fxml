@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emsi.subtracker.controllers.SettingsController"
+            styleClass="bg-primary"
+            prefHeight="768" prefWidth="1280">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="260" spacing="0" styleClass="sidebar">
+            <padding><Insets top="30" right="20" bottom="30" left="20"/></padding>
+            
+            <VBox alignment="CENTER" spacing="15">
+                <padding><Insets bottom="20"/></padding>
+                
+                <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logo.jpg"/>
+                    </image>
+                    <clip>
+                        <Circle centerX="25" centerY="25" radius="25"/>
+                    </clip>
+                </ImageView>
+                
+                <Label text="SubTracker" styleClass="text-header"/>
+                <Separator styleClass="separator-horizontal" prefWidth="220"/>
+            </VBox>
+            
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <Button text="Dashboard" onAction="#goToDashboard" maxWidth="Infinity"
+                       style="-fx-background-color: transparent; -fx-text-fill: #A0A0A0; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand; -fx-alignment: CENTER-LEFT;"/>
+                <Button text="Analytics" onAction="#goToAnalytics" maxWidth="Infinity"
+                       style="-fx-background-color: transparent; -fx-text-fill: #A0A0A0; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand; -fx-alignment: CENTER-LEFT;"/>
+                <Button text="Paramètres" maxWidth="Infinity" styleClass="nav-button-active"/>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                <Label text="Version 1.0.2" style="-fx-text-fill: #555; -fx-font-size: 11;"/>
+            </VBox>
+        </VBox>
+    </left>
+    
+    <!-- CONTENU -->
+    <center>
+        <VBox spacing="20">
+            <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+            
+            <!-- HEADER -->
+            <VBox spacing="5">
+                <Label text="Paramètres" styleClass="text-title-large"/>
+                <Label text="Gérez votre compte et préférences" styleClass="text-subheader"/>
+            </VBox>
+            
+            <!-- TABS -->
+            <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <styleClass>
+                    <String fx:value="settings-tab-pane"/>
+                </styleClass>
+                <tabs>
+                    <!-- COMPTE -->
+                    <Tab text="Mon Compte">
+                        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+                            <styleClass>
+                                <String fx:value="bg-primary"/>
+                            </styleClass>
+                            <VBox spacing="25">
+                                <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                                
+                                <!-- Infos personnelles -->
+                                <VBox spacing="15">
+                                    <Label text="INFORMATIONS PERSONNELLES" styleClass="text-section-title"/>
+                                    
+                                    <VBox spacing="8">
+                                        <Label text="Nom d'utilisateur" styleClass="text-label-small"/>
+                                        <TextField fx:id="usernameField" styleClass="input-field"/>
+                                    </VBox>
+                                    
+                                    <VBox spacing="8">
+                                        <Label text="Email" styleClass="text-label-small"/>
+                                        <TextField fx:id="emailField" styleClass="input-field"/>
+                                    </VBox>
+                                    
+                                    <Button text="Sauvegarder" onAction="#onSaveAccount" styleClass="button-action"/>
+                                </VBox>
+                                
+                                <Separator styleClass="separator-horizontal"/>
+                                
+                                <!-- Sécurité -->
+                                <VBox spacing="15">
+                                    <Label text="SÉCURITÉ" styleClass="text-section-title"/>
+                                    <HBox spacing="12" alignment="CENTER_LEFT">
+                                        <PasswordField fx:id="newPasswordField" promptText="Nouveau mot de passe" HBox.hgrow="ALWAYS" styleClass="input-field"/>
+                                        <Button text="Changer" onAction="#onChangePassword" styleClass="button-secondary-action"/>
+                                    </HBox>
+                                </VBox>
+                                
+                                <Separator style="-fx-background-color: #333;"/>
+                                
+                                <!-- Actions -->
+                                <VBox spacing="12">
+                                    <Label text="ACTIONS" style="-fx-text-fill: #6C63FF; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                                    <Button text="Se Déconnecter" onAction="#onLogout"
+                                           style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand;"/>
+                                </VBox>
+                                
+                                <Separator style="-fx-background-color: #333;"/>
+                                
+                                <!-- Zone danger -->
+                                <VBox spacing="12">
+                                    <Label text="ZONE DANGER" style="-fx-text-fill: #EF4444; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                                    <Label text="La suppression du compte est irréversible." style="-fx-text-fill: #A0A0A0; -fx-font-size: 12;" wrapText="true"/>
+                                    <Button text="Supprimer mon compte" onAction="#onDeleteAccount"
+                                           style="-fx-background-color: transparent; -fx-border-color: #EF4444; -fx-border-width: 2; -fx-border-radius: 8; -fx-text-fill: #EF4444; -fx-padding: 12; -fx-cursor: hand;"/>
+                                </VBox>
+                            </VBox>
+                        </ScrollPane>
+                    </Tab>
+                    
+                    <!-- AFFICHAGE -->
+                    <Tab text="Affichage">
+                        <VBox spacing="20" styleClass="bg-primary">
+                            <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                            
+                            <VBox spacing="15">
+                                <Label text="APPARENCE" styleClass="text-section-title"/>
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <ToggleButton fx:id="themeToggle" text="Mode Sombre" style="-fx-cursor: hand;"/>
+                                </HBox>
+                                <Separator styleClass="separator-horizontal"/>
+                                
+                                <Label text="DEVISE" styleClass="text-section-title"/>
+                                <VBox spacing="10">
+                                    <RadioButton fx:id="currencyDH" text="Dirham Marocain (DH)" selected="true" styleClass="settings-radio">
+                                        <toggleGroup><ToggleGroup fx:id="currencyGroup"/></toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="currencyEUR" text="Euro (€)" toggleGroup="$currencyGroup" styleClass="settings-radio"/>
+                                    <RadioButton fx:id="currencyUSD" text="Dollar ($)" toggleGroup="$currencyGroup" styleClass="settings-radio"/>
+                                </VBox>
+                                <Button text="Confirmer" onAction="#onConfirmCurrency" styleClass="button-action"/>
+                            </VBox>
+                        </VBox>
+                    </Tab>
+                    
+                    <!-- DONNÉES -->
+                    <Tab text="Données">
+                        <VBox spacing="20" styleClass="bg-primary">
+                            <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                            
+                            <VBox spacing="15">
+                                <Label text="GESTION DES DONNÉES" style="-fx-text-fill: #6C63FF; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                                <Button text="Exporter en CSV" onAction="#onExportData"
+                                       style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand;"/>
+                                <Label text="Téléchargez une copie de vos abonnements" style="-fx-text-fill: #A0A0A0; -fx-font-size: 12;"/>
+                            </VBox>
+                        </VBox>
+                    </Tab>
+                    
+                    <!-- À PROPOS -->
+                    <Tab text="À Propos">
+                        <VBox spacing="15" alignment="CENTER" styleClass="bg-primary">
+                            <padding><Insets top="40" right="25" bottom="40" left="25"/></padding>
+                            <Label text="SubTracker" styleClass="text-title-medium"/>
+                            <Label text="Version 1.0.2" styleClass="text-subheader"/>
+                            <Label text="Développé par Othmane, Rayane et Yassine" styleClass="text-subheader" wrapText="true" textAlignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </VBox>
+    </center>
+</BorderPane>
