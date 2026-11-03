@@ -18,8 +18,6 @@ public class DatabaseConfig {
                 .getResourceAsStream(CONFIG_FILE)) {
 
             if (input == null) {
-                // Try to load from root if not found in classpath root (sometimes happens in
-                // IDEs)
                 throw new RuntimeException("Unable to find " + CONFIG_FILE);
             }
             properties.load(input);

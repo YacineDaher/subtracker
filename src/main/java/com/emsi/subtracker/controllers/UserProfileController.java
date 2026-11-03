@@ -65,12 +65,10 @@ public class UserProfileController implements Initializable {
         UserSession session = UserSession.getInstance();
 
         if (session.isFamilyMember()) {
-            // Case: Family Member
             com.emsi.subtracker.models.FamilyMember member = session.getFamilyMember();
             if (member != null) {
                 lblUsername.setText(member.getName());
 
-                // Fetch Parent Email
                 User parent = userService.getUserById(member.getUserId());
                 String parentEmail = (parent != null) ? parent.getEmail() : "Email introuvable";
 
@@ -78,21 +76,18 @@ public class UserProfileController implements Initializable {
                 lblEmail.setStyle("-fx-text-fill: #A0A0A0; -fx-font-size: 13; -fx-font-style: italic;");
             }
         } else {
-            // Case: Parent User
             User user = session.getUser();
             if (user != null) {
                 lblUsername.setText(user.getUsername());
                 lblEmail.setText(user.getEmail());
                 lblEmail.setStyle("-fx-text-fill: #A0A0A0; -fx-font-size: 14;");
 
-                // Load Profile Picture
                 if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
                     loadProfileImage(user.getProfilePicture());
                 }
             }
         }
 
-        // Fetch stats (Service already handles filtering based on session)
         List<Abonnement> subs = service.getAll();
         lblTotalSubscriptions.setText(String.valueOf(subs.size()));
 
@@ -130,12 +125,10 @@ public class UserProfileController implements Initializable {
                 appDir.mkdirs();
             }
 
-            // Generate filename: profile_USERID_TIMESTAMP.ext
             String ext = getFileExtension(sourceFile);
             String fileName = "profile_" + user.getId() + "_" + System.currentTimeMillis() + "." + ext;
             java.io.File targetFile = new java.io.File(appDir, fileName);
 
-            // Copy file
             java.nio.file.Files.copy(sourceFile.toPath(), targetFile.toPath(),
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
@@ -143,13 +136,10 @@ public class UserProfileController implements Initializable {
             String oldPath = user.getProfilePicture();
             user.setProfilePicture(targetFile.getAbsolutePath());
 
-            // Persist to DB
             userService.updateUser(user);
 
-            // Update UI
             loadProfileImage(targetFile.getAbsolutePath());
 
-            // Cleanup old file if exists and different
             if (oldPath != null && !oldPath.equals(targetFile.getAbsolutePath())) {
                 try {
                     java.io.File oldFile = new java.io.File(oldPath);

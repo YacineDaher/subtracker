@@ -31,12 +31,9 @@ public class EmailConfig {
         }
         EMAIL_USERNAME = username;
         EMAIL_PASSWORD = password;
-        EMAIL_FROM = username; // Utilise le même email
+        EMAIL_FROM = username;
     }
 
-    /**
-     * Vérifie si la configuration est valide.
-     */
     public static boolean isConfigured() {
         return EMAIL_USERNAME != null && !EMAIL_USERNAME.isEmpty() && EMAIL_PASSWORD != null
                 && !EMAIL_PASSWORD.isEmpty();

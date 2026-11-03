@@ -7,9 +7,7 @@ import com.emsi.subtracker.utils.PasswordUtil;
 
 import java.util.List;
 
-/**
- * Service de gestion des membres de famille.
- */
+
 public class FamilyService {
 
     private final FamilyMemberDAO familyMemberDAO;
@@ -19,10 +17,6 @@ public class FamilyService {
         this.familyMemberDAO = new FamilyMemberDAOImpl();
     }
 
-    /**
-     * Crée un nouveau membre de famille.
-     * Vérifie la limite de 5 membres max.
-     */
     public FamilyMember createMember(FamilyMember member) {
         // Vérifier limite
         int currentCount = familyMemberDAO.countByUserId(member.getUserId());
@@ -38,9 +32,7 @@ public class FamilyService {
         return familyMemberDAO.save(member);
     }
 
-    /**
-     * Crée plusieurs membres à la fois (inscription compte familial).
-     */
+
     public void createMultipleMembers(int userId, List<FamilyMember> members) {
         for (FamilyMember member : members) {
             member.setUserId(userId);
@@ -48,16 +40,11 @@ public class FamilyService {
         }
     }
 
-    /**
-     * Récup\u00e8re tous les membres d'une famille.
-     */
     public List<FamilyMember> getFamilyMembers(int userId) {
         return familyMemberDAO.findByUserId(userId);
     }
 
-    /**
-     * Authentifie un membre de famille.
-     */
+
     public FamilyMember authenticate(String username, String password) {
         FamilyMember member = familyMemberDAO.findByUsername(username);
 
@@ -68,37 +55,23 @@ public class FamilyService {
         return null;
     }
 
-    /**
-     * Met à jour un membre.
-     */
+
     public boolean updateMember(FamilyMember member) {
         return familyMemberDAO.update(member);
     }
 
-    /**
-     * Supprime un membre.
-     */
     public boolean deleteMember(int id) {
         return familyMemberDAO.delete(id);
     }
 
-    /**
-     * Trouve un membre par ID.
-     */
     public FamilyMember getMemberById(int id) {
         return familyMemberDAO.findById(id);
     }
 
-    /**
-     * Compte le nombre de membres pour un utilisateur.
-     */
     public int getMemberCount(int userId) {
         return familyMemberDAO.countByUserId(userId);
     }
 
-    /**
-     * Vérifie si un utilisateur peut ajouter plus de membres.
-     */
     public boolean canAddMoreMembers(int userId) {
         return familyMemberDAO.countByUserId(userId) < MAX_FAMILY_MEMBERS;
     }

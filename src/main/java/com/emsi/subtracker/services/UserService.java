@@ -15,10 +15,6 @@ public class UserService {
         this.familyService = new FamilyService();
     }
 
-    /**
-     * Authentifie un utilisateur ou un membre de famille.
-     * Cherche d'abord dans users, puis dans family_members.
-     */
     public Object authenticateAny(String username, String password) {
         // 1. Essayer d'abord comme utilisateur principal
         User user = authenticate(username, password);
@@ -35,9 +31,6 @@ public class UserService {
         return null;
     }
 
-    /**
-     * Authentifie uniquement un utilisateur principal.
-     */
     public User authenticate(String username, String password) {
         if (userDAO.checkCredentials(username, password)) {
             return userDAO.findByUsername(username).orElse(null);

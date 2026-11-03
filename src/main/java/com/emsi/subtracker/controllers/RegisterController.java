@@ -219,7 +219,6 @@ public class RegisterController {
         }
     }
 
-    // Classe interne pour stocker les champs
     private static class FamilyMemberInput {
         HBox container;
         TextField nameField;

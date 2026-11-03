@@ -55,10 +55,8 @@ public class AddSubscriptionController implements Initializable {
         cmbCategorie.getItems().addAll("Divertissement", "Travail", "Sport", "Musique", "Autre");
         cmbCategorie.getSelectionModel().select("Autre");
 
-        // Date par défaut = aujourd'hui
         dateDebut.setValue(LocalDate.now());
 
-        // Charger membres de famille SI compte familial
         UserSession session = UserSession.getInstance();
         User user = session.getUser();
 
@@ -69,7 +67,6 @@ public class AddSubscriptionController implements Initializable {
         }
 
         if (user != null && user.isFamilyAccount()) {
-            // Compte familial - charger membres
             familyMembers = familyService.getFamilyMembers(user.getId());
 
             assignToComboBox.getItems().clear();
@@ -86,14 +83,12 @@ public class AddSubscriptionController implements Initializable {
                 assignToContainer.setManaged(true);
             }
         } else {
-            // Hide container
             if (assignToContainer != null) {
                 assignToContainer.setVisible(false);
                 assignToContainer.setManaged(false);
             }
         }
 
-        // Platform.runLater to ensure Scene is not null
         javafx.application.Platform.runLater(() -> {
             if (txtNom.getScene() != null) {
                 com.emsi.subtracker.utils.ThemeManager.applyTheme(txtNom.getScene());
@@ -107,7 +102,6 @@ public class AddSubscriptionController implements Initializable {
     protected void onBtnEnregistrerClick() {
         if (validerChamps()) {
             try {
-                // 1. Récupération des valeurs
                 String nom = txtNom.getText();
                 double prix = Double.parseDouble(txtPrix.getText());
                 LocalDate date = dateDebut.getValue();
@@ -115,18 +109,15 @@ public class AddSubscriptionController implements Initializable {
                 String categorie = cmbCategorie.getValue();
 
                 if (currentAbonnement != null) {
-                    // Update existing
                     currentAbonnement.setNom(nom);
                     currentAbonnement.setPrix(prix);
                     currentAbonnement.setDateDebut(date);
                     currentAbonnement.setFrequence(frequence);
                     currentAbonnement.setCategorie(categorie);
 
-                    // Update assigned member
                     Integer assignedMemberId = getAssignedMemberId();
                     currentAbonnement.setAssignedToMemberId(assignedMemberId);
 
-                    // Update Branding (in case name changed)
                     com.emsi.subtracker.services.BrandingService brandingObj = com.emsi.subtracker.services.BrandingService
                             .getInstance();
                     currentAbonnement.setLogoUrl(brandingObj.getLogoUrl(nom));
@@ -134,17 +125,14 @@ public class AddSubscriptionController implements Initializable {
 
                     service.update(currentAbonnement);
                 } else {
-                    // Create new
                     UserSession session = UserSession.getInstance();
                     int userId = session.getUserId();
                     Integer assignedMemberId = getAssignedMemberId();
 
-                    // Génération d'un ID (timestamp simple pour l'exemple)
                     int id = (int) (System.currentTimeMillis() % 100000);
                     Abonnement nouvelAbonnement = new Abonnement(
                             id, nom, prix, date, frequence, categorie, userId, assignedMemberId);
 
-                    // Smart Branding
                     com.emsi.subtracker.services.BrandingService brandingObj = com.emsi.subtracker.services.BrandingService
                             .getInstance();
                     nouvelAbonnement.setLogoUrl(brandingObj.getLogoUrl(nom));
@@ -153,7 +141,6 @@ public class AddSubscriptionController implements Initializable {
                     service.add(nouvelAbonnement);
                 }
 
-                // 3. Retour au Dashboard
                 retourAuDashboard();
 
             } catch (NumberFormatException e) {
@@ -204,29 +191,21 @@ public class AddSubscriptionController implements Initializable {
         alert.show();
     }
 
-    /**
-     * Détermine l'ID du membre à qui assigner l'abonnement.
-     * 
-     * @return ID du membre, ou null si assigné au compte principal
-     */
+
     private Integer getAssignedMemberId() {
         UserSession session = UserSession.getInstance();
 
         if (session.isFamilyMember()) {
-            // Membre connecté - assigner à lui
             return session.getFamilyMember().getId();
         } else if (session.getUser() != null && session.getUser().isFamilyAccount()) {
-            // Compte familial - vérifier dropdown
             if (assignToComboBox.isVisible()) {
                 int selectedIndex = assignToComboBox.getSelectionModel().getSelectedIndex();
                 if (selectedIndex > 0) {
-                    // Index 0 = "Moi", 1+ = membres
                     return familyMembers.get(selectedIndex - 1).getId();
                 }
             }
         }
 
-        // Par défaut: assigné au compte principal (null)
         return null;
     }
 }

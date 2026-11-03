@@ -3,10 +3,7 @@ package com.emsi.subtracker.models;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-/**
- * Représente un abonnement utilisateur.
- * Gère la sérialisation vers/depuis le format CSV.
- */
+
 public class Abonnement {
     private int id;
     private String nom;
@@ -38,7 +35,6 @@ public class Abonnement {
         this.colorHex = "#2D3436";
     }
 
-    // Constructeur sans assignedToMemberId (par défaut null)
     public Abonnement(int id, String nom, double prix, LocalDate dateDebut, String frequence, String categorie,
             int userId) {
         this(id, nom, prix, dateDebut, frequence, categorie, userId, null);

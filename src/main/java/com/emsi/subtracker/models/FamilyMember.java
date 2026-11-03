@@ -2,10 +2,7 @@ package com.emsi.subtracker.models;
 
 import java.time.LocalDateTime;
 
-/**
- * Représente un membre de famille (sous-utilisateur).
- * Permet à un compte principal de gérer plusieurs profils.
- */
+
 public class FamilyMember {
 
     private int id;

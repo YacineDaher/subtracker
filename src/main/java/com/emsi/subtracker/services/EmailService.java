@@ -21,7 +21,6 @@ public class EmailService {
         // Constructor privé pour Singleton
     }
 
-    /**Récupère l'instance unique du service.*/
     public static EmailService getInstance() {
         if (instance == null) {
             instance = new EmailService();

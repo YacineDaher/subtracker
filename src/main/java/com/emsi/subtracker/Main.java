@@ -11,7 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Init Database
         com.emsi.subtracker.utils.DBConnection.getInstance();
 
         primaryStage = stage;
@@ -19,7 +18,6 @@ public class Main extends Application {
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(700);
 
-        // Use SceneManager to ensure consistent styling and sizing logic
         com.emsi.subtracker.utils.SceneManager.switchScene(stage, "login.fxml");
     }
 

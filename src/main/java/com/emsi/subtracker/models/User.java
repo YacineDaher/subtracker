@@ -6,7 +6,6 @@ public class User {
     private String password;
     private String email;
 
-    // Nouveaux champs pour gestion famille
     private String accountType = "individual"; // "individual" ou "family"
     private boolean isFamilyMember = false;
     private Integer parentUserId = null; // Si membre, ID du parent

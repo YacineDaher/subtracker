@@ -62,13 +62,11 @@ public class AnalyticsController implements Initializable {
         // Apply Dark Theme to Charts
         javafx.application.Platform.runLater(() -> {
             if (pieChartCategories != null && pieChartCategories.getScene() != null) {
-                // PieChart - dark legend and labels (Text Only)
                 pieChartCategories.lookupAll(".chart-legend-item").forEach(node -> {
                     if (node instanceof javafx.scene.text.Text) {
                         ((javafx.scene.text.Text) node).setFill(javafx.scene.paint.Color.WHITE);
                     }
-                    // Fix: Do NOT touch .chart-legend-item-symbol or it loses category colors
-                    // If label is a Label control (sometimes used instead of Text)
+
                     if (node instanceof javafx.scene.control.Label) {
                         ((javafx.scene.control.Label) node).setStyle("-fx-text-fill: white;");
                     }
@@ -76,7 +74,6 @@ public class AnalyticsController implements Initializable {
             }
 
             if (barChartCosts != null) {
-                // BarChart - white axis labels
                 barChartCosts.lookupAll(".axis-label").forEach(node -> {
                     if (node instanceof javafx.scene.text.Text) {
                         ((javafx.scene.text.Text) node).setFill(javafx.scene.paint.Color.WHITE);
@@ -144,13 +141,6 @@ public class AnalyticsController implements Initializable {
         String currencyCode = com.emsi.subtracker.utils.UserSession.getInstance().getCurrency();
         String currencySymbol = getCurrencySymbol(currencyCode);
 
-        // Fallback if needed, but UserSession usually handles it.
-        // NOTE: Currency conversion logic is in DashboardController, we might want to
-        // duplicate or centralize it.
-        // For now, assuming base calculations. If currency conversion is needed, we
-        // should use a utility.
-        // Let's stick to simple display for now to fix the "0" issue.
-
         if (lblTotalAnnuel != null)
             lblTotalAnnuel.setText(df.format(totalAnnuel) + " " + currencySymbol);
         if (lblMoyenneMensuelle != null)
@@ -177,8 +167,7 @@ public class AnalyticsController implements Initializable {
     }
 
     private void loadPieChartData(List<Abonnement> list) {
-        // Group by category and sum counts (or costs?)
-        // Let's visualize Cost Distribution by Category
+
         Map<String, Double> costByCategory = list.stream()
                 .collect(Collectors.groupingBy(
                         Abonnement::getCategorie,
@@ -213,8 +202,7 @@ public class AnalyticsController implements Initializable {
 
         barChartCosts.getData().add(series);
 
-        // Add Interactivity (BarChart nodes are created effectively after layout)
-        // using runLater to ensure nodes are available
+
         javafx.application.Platform.runLater(() -> {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 javafx.scene.Node node = data.getNode();

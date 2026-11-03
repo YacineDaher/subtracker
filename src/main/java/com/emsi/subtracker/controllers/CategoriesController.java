@@ -50,7 +50,7 @@ public class CategoriesController implements Initializable {
     });
   }
 
-  // --- NAVIGATION ---
+  // NAVIGATION
 
   @FXML
   protected void goToDashboard() {

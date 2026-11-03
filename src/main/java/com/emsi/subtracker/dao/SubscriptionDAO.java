@@ -17,7 +17,6 @@ public interface SubscriptionDAO {
 
     List<Abonnement> findAll(int userId);
 
-    // New method for family members
     List<Abonnement> findAllByAssignedMemberId(int memberId);
 
     List<Abonnement> findAll();

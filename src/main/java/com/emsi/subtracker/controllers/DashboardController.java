@@ -68,28 +68,24 @@ public class DashboardController implements Initializable {
         try {
             System.out.println("DashboardController initialization started...");
 
-            // ✅ Init Theme Toggle
             if (themeToggleDashboard != null) {
                 boolean isDark = com.emsi.subtracker.utils.ThemeManager.isDarkTheme();
                 themeToggleDashboard.setSelected(isDark);
                 themeToggleDashboard.setText(isDark ? "☀️" : "🌙");
             }
 
-            // 1. Init Category Filter
             if (categoryFilter != null) {
                 categoryFilter.getItems().addAll("Toutes", "Divertissement", "Travail", "Sport", "Musique", "Autre");
                 categoryFilter.getSelectionModel().selectFirst();
                 categoryFilter.valueProperty().addListener((obs, oldVal, newVal) -> filterSubscriptions());
             }
 
-            // 2. Init Sort Filter
             if (sortFilter != null) {
                 sortFilter.getItems().addAll("Par défaut", "Prix croissant", "Prix décroissant", "Date de début");
                 sortFilter.getSelectionModel().selectFirst();
                 sortFilter.valueProperty().addListener((obs, oldVal, newVal) -> filterSubscriptions());
             }
 
-            // 3. Init Search Listener
             if (searchField != null) {
                 searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                     filterSubscriptions();
@@ -98,12 +94,10 @@ public class DashboardController implements Initializable {
                 System.err.println("WARNING: searchField is null in DashboardController");
             }
 
-            // 4. Preload Family Members for Name Resolution
             preloadFamilyMembers();
 
             refreshDashboard();
 
-            // ✅ INTÉGRATION EMAIL: Vérifier et envoyer les alertes de renouvellement J-3
             checkRenewalAlerts();
 
             System.out.println("DashboardController initialization completed.");
@@ -131,28 +125,22 @@ public class DashboardController implements Initializable {
             }
         }
 
-        // Fetch Data once
         this.allSubscriptions = service.getAll();
 
-        // 1. Mise à jour du total
         double total = service.calculerTotalMensuel();
 
-        // Currency Conversion
         String currency = com.emsi.subtracker.utils.UserSession.getInstance().getCurrency();
         double displayTotal = convertPrice(total, currency);
         String symbol = getCurrencySymbol(currency);
 
         lblTotalMensuel.setText(df.format(displayTotal) + " " + symbol);
 
-        // 2. Refresh List
         filterSubscriptions();
 
-        // 3. Sync Active Stats
         if (lblNombreAbonnements != null) {
             lblNombreAbonnements.setText(String.valueOf(allSubscriptions.size()));
         }
 
-        // 4. Update User Avatar
         loadUserAvatar();
     }
 
@@ -207,7 +195,6 @@ public class DashboardController implements Initializable {
                 })
                 .collect(java.util.stream.Collectors.toList());
 
-        // Sort
         if ("Prix croissant".equals(sortMode)) {
             filtered.sort(java.util.Comparator.comparingDouble(Abonnement::getPrix));
         } else if ("Prix décroissant".equals(sortMode)) {
@@ -216,7 +203,6 @@ public class DashboardController implements Initializable {
             filtered.sort(java.util.Comparator.comparing(Abonnement::getDateDebut));
         }
 
-        // Display
         for (Abonnement sub : filtered) {
             VBox card = createSubscriptionCard(sub);
             cardsContainer.getChildren().add(card);
@@ -225,9 +211,8 @@ public class DashboardController implements Initializable {
 
     private VBox createSubscriptionCard(Abonnement sub) {
         VBox card = new VBox(14);
-        card.getStyleClass().add("sub-card"); // Apply CSS class for dimensions and base style
+        card.getStyleClass().add("sub-card");
 
-        // 🎨 SMART BRANDING COLOR
         String colorHex = sub.getColorHex();
         String bgStyle;
 
@@ -238,15 +223,11 @@ public class DashboardController implements Initializable {
             bgStyle = "-fx-background-color: " + colorHex + ";";
         }
 
-        // Only set background color via inline style, let CSS handle the rest (padding,
-        // radius, shadow)
         card.setStyle(bgStyle);
 
-        // HEADER: Nom + Logo
         javafx.scene.layout.HBox header = new javafx.scene.layout.HBox(12);
         header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-        // Logo Container (White Circle Background for better visibility)
         javafx.scene.layout.StackPane logoContainer = new javafx.scene.layout.StackPane();
         logoContainer.setMinSize(40, 40);
         logoContainer.setPrefSize(40, 40);
@@ -265,7 +246,6 @@ public class DashboardController implements Initializable {
 
         boolean hasLogo = sub.getLogoUrl() != null && !sub.getLogoUrl().isEmpty();
 
-        // Load Image Async
         if (hasLogo) {
             new Thread(() -> {
                 try {
@@ -294,10 +274,8 @@ public class DashboardController implements Initializable {
             header.getChildren().addAll(lblName);
         }
 
-        // --- NEW: Display Assigned Member if applicable ---
         Integer memberId = sub.getAssignedToMemberId();
 
-        // Hide if self-assigned (User is the Family Member)
         com.emsi.subtracker.utils.UserSession session = com.emsi.subtracker.utils.UserSession.getInstance();
         boolean isSelf = false;
         if (session.isFamilyMember() && memberId != null) {
@@ -324,9 +302,7 @@ public class DashboardController implements Initializable {
                 header.getChildren().addAll(nameBox);
             }
         }
-        // --------------------------------------------------
 
-        // PRIX ÉNORME
         javafx.scene.layout.HBox priceRow = new javafx.scene.layout.HBox(10);
         priceRow.setAlignment(javafx.geometry.Pos.BASELINE_LEFT);
 
@@ -345,17 +321,14 @@ public class DashboardController implements Initializable {
 
         priceRow.getChildren().addAll(lblPrice, currencyLabel, freqLabel);
 
-        // 📅 RENOUVELLEMENT
         String nextRenewal = calculateNextRenewal(sub);
         Label dateLabel = new Label("📅  Renouvellement: " + nextRenewal);
         dateLabel.setStyle(
                 "-fx-text-fill: rgba(255,255,255,0.92); -fx-font-size: 14; -fx-font-weight: 500; -fx-padding: 4 0 0 0;");
 
-        // SPACER
         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
         javafx.scene.layout.VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
-        // ACTIONS FOOTER
         javafx.scene.layout.HBox actionsRow = new javafx.scene.layout.HBox(12);
         actionsRow.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
 
@@ -409,7 +382,6 @@ public class DashboardController implements Initializable {
         return card;
     }
 
-    // 🎨 Obtenir gradient selon catégorie
     private String getCategoryGradient(String category) {
         if (category == null)
             return "#667EEA, #764BA2";
@@ -566,10 +538,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    /**
-     * Vérifie les abonnements et envoie des alertes pour ceux qui arrivent à
-     * échéance dans 3 jours.
-     */
+
     private void checkRenewalAlerts() {
         if (com.emsi.subtracker.utils.UserSession.getInstance().isFamilyMember()) {
             return; // Pas d'alertes email pour les membres de famille

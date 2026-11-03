@@ -14,8 +14,6 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
     private static final String INSERT_SQL = "INSERT INTO abonnements (nom, prix, date_debut, frequence, categorie, user_id, assigned_to_member_id, logo_url, color_hex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM abonnements WHERE user_id = ?";
 
-    // Keep old one for compatibility/admin
-    // Keep old one for compatibility/admin
     private static final String SELECT_ALL_ADMIN_SQL = "SELECT * FROM abonnements";
 
     public SubscriptionDAOImpl() {
@@ -69,10 +67,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
 
     @Override
     public Abonnement update(Abonnement abonnement) {
-        // Update query usually doesn't need to change for user_id unless we want to
-        // enforce ownership
-        // Update query usually doesn't need to change for user_id unless we want to
-        // enforce ownership
+
         String UPDATE_SQL = "UPDATE abonnements SET nom=?, prix=?, date_debut=?, frequence=?, categorie=?, assigned_to_member_id=?, logo_url=?, color_hex=? WHERE id=?";
         try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(UPDATE_SQL)) {

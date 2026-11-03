@@ -3,10 +3,6 @@ package com.emsi.subtracker.services;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Service pour gérer le branding (Logos et Couleurs) des abonnements.
- * Singleton.
- */
 public class BrandingService {
 
     private static BrandingService instance;

@@ -167,9 +167,7 @@ public class FamilyMemberDAOImpl implements FamilyMemberDAO {
         return 0;
     }
 
-    /**
-     * Mappe un ResultSet vers un objet FamilyMember.
-     */
+
     private FamilyMember mapResultSet(ResultSet rs) throws SQLException {
         FamilyMember member = new FamilyMember();
         member.setId(rs.getInt("id"));
