@@ -7,8 +7,6 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apachemaven&logoColor=white)
 
-> Academic group project built at **EMSI Casablanca** (see [Team](#-team)).
-
 ---
 
 ## ✨ Features
@@ -44,7 +42,6 @@
 | Security | BCrypt (jBCrypt) |
 | E-mail | Jakarta Mail (SMTP) |
 | Build | Maven |
-| Tests | JUnit 5 |
 
 ## 🏗️ Architecture
 
@@ -92,17 +89,9 @@ Run [`database/schema.sql`](database/schema.sql) in SSMS or Azure Data Studio. I
 
 ### 3. Configure the application
 
-Copy the two example files and fill in your values:
-
-```bash
-cp src/main/resources/database.properties.example src/main/resources/database.properties
-cp src/main/resources/mail.properties.example     src/main/resources/mail.properties
-```
 
 - **`database.properties`** (required): your SQL Server URL, user and password.
-- **`mail.properties`** (needed only for e-mail notifications): a Gmail address and a [Google app password](https://support.google.com/accounts/answer/185833).
-
-Both files are listed in `.gitignore`, so your credentials are never committed.
+- **`mail.properties`** (needed only for e-mail notifications): a Gmail address and a [Google app password].
 
 ### 4. Run
 
@@ -111,7 +100,7 @@ mvn clean compile
 mvn javafx:run
 ```
 
-Create an account from the registration screen, then log in.
+Create an account from the registration, then log in.
 
 ### Troubleshooting SQL Server connection
 
@@ -127,26 +116,12 @@ If the app fails with a *connection timed out* error:
 
 ## 🔐 Security notes
 
-- Passwords are stored as **BCrypt** hashes, never in plain text.
+- Passwords are stored as **BCrypt** hashes.
 - All SQL queries use `PreparedStatement`.
 - Credentials live in git-ignored files (`database.properties`, `mail.properties`).
 
 ## 👥 Team
 
-Group project realised at **EMSI Casablanca**, supervised by **Mr. Badr Hirchoua**:
+Group project realised at **EMSI Casablanca** with a team , supervised by **Mr. Badr Hirchoua**:
 
-- **Mohammed Yacine Daher**: <!-- TODO: describe YOUR part here, e.g. authentication and BCrypt migration, DAO layer, analytics… -->
-- **Othmane Moussawi**
-- **Ramzi Ahmed Rayane**
 
-This repository is a cleaned-up copy of the [original team repository](https://github.com/OthmaneW37/GestionAbonnements): removal of unused files and secrets, BCrypt password hashing, an updated database schema and documentation.
-
-## 🗺️ Possible improvements
-
-- Docker Compose file to start SQL Server and the app with one command
-- More unit and integration tests (services and DAO layer)
-- Packaging as a native installer with `jpackage`
-
-## 📄 License
-
-Academic project. <!-- TODO: add a LICENSE file (e.g. MIT) if you want others to reuse the code -->
