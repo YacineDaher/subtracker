@@ -6,6 +6,7 @@
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-3A75B0)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apachemaven&logoColor=white)
+[![Build](https://github.com/YacineDaher/subtracker/actions/workflows/build.yml/badge.svg)](https://github.com/YacineDaher/subtracker/actions/workflows/build.yml)
 
 ### 📌 Repository Note
 This repository contains the completed stable build of the SubTracker application. The project was initially developed in a separate team environment prior to its publication. As a result, the commit history here reflects the final release and some cleanup stages rather than day-to-day incremental updates.
@@ -24,8 +25,6 @@ This repository contains the completed stable build of the SubTracker applicatio
 - **Settings**: dark / light theme, currency, profile picture and password change.
 
 ## 📸 Screenshots
-
-<!-- TODO: add your screenshots in docs/screenshots/ and keep or rename these paths -->
 
 | Login | Dashboard |
 |---|---|
@@ -93,7 +92,13 @@ Run [`database/schema.sql`](database/schema.sql) in SSMS or Azure Data Studio. I
 ### 3. Configure the application
 
 
-- **`database.properties`** (required): your SQL Server URL, user and password.
+Copy the templates in `src/main/resources/` and fill them in (both files are git-ignored):
+
+```bash
+cp src/main/resources/database.properties.example src/main/resources/database.properties
+```
+
+- **`database.properties`** (required): your SQL Server URL, user and password, plus the HikariCP pool settings.
 - **`mail.properties`** (needed only for e-mail notifications): a Gmail address and a [Google app password].
 
 ### 4. Run
@@ -112,7 +117,7 @@ If the app fails with a *connection timed out* error:
 1. In **SQL Server Configuration Manager**, enable **TCP/IP** for your instance.
 2. In the TCP/IP properties, open the **IP Addresses** tab, go to **IPAll**, clear *TCP Dynamic Ports* and set *TCP Port* to `1433`.
 3. Restart the SQL Server service.
-4. Use the port explicitly in `database.properties`:
+4. Use the port explicitly in `database.properties` (`db.url`):
    ```
    db.url=jdbc:sqlserver://localhost:1433;databaseName=subtracker_db;encrypt=true;trustServerCertificate=true;
    ```
@@ -121,10 +126,9 @@ If the app fails with a *connection timed out* error:
 
 - Passwords are stored as **BCrypt** hashes.
 - All SQL queries use `PreparedStatement`.
-- Credentials live in git-ignored files (`database.properties`, `mail.properties`).
+- Credentials live in git-ignored files (`database.properties`, `mail.properties`); nothing is hard-coded.
+- Database access goes through a **HikariCP** connection pool: DAOs borrow a connection in a `try-with-resources` block and return it to the pool when done.
 
 ## 👥 Team
 
-Group project realised at **EMSI Casablanca** with a team , supervised by **Mr. Badr Hirchoua**:
-
-
+Group project built at **EMSI Casablanca**, supervised by **Mr. Badr Hirchoua**.
